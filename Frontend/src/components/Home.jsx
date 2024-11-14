@@ -9,8 +9,10 @@ function Home() {
 
   return (
     <div style={styles.container}>
-      <h1 style={styles.heading}>Вітаємо у CRM-системі</h1>
-      <p style={styles.paragraph}>Ефективно керуйте своїми контактами, продажами та підтримкою!</p>
+      <div style={styles.textContainer}>
+        <h1 style={styles.heading}>Вітаємо у CRM-системі</h1>
+        <p style={styles.paragraph}>Ефективно керуйте своїми контактами, продажами та підтримкою!</p>
+      </div>
       <div style={styles.cardContainer}>
         {features.map((feature, index) => (
           <div key={index} style={styles.card}>
@@ -21,6 +23,7 @@ function Home() {
       </div>
     </div>
   );
+  
   
 }
 
@@ -46,13 +49,19 @@ const styles = {
     maxWidth: '200px',
     textAlign: 'left',
   },
+  textContainer: {
+    backgroundColor: '#fff', 
+    padding: '10px', 
+    display: 'inline-block', 
+    borderRadius: '10px', 
+  },
   heading: {
-    color: 'white', // Колір тексту
-    fontSize: '64px', // Розмір тексту
+    color: 'black', 
+    fontSize: '42px',
   },
   paragraph: {
-    color: 'white', // Колір тексту
-    fontSize: '42px', // Розмір тексту
+    color: 'black', 
+    fontSize: '36px', 
   },
 };
 
