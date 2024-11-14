@@ -1,7 +1,18 @@
-import "./App.css";
+import React from 'react';
+import { BrowserRouter } from 'react-router-dom'; 
+import AppRoutes from './Routes.jsx';
+import Navigation from './components/Navigation.jsx';
+
+
 
 function App() {
-    return <p>App works!</p>;
+  return (
+    
+    <BrowserRouter> {/* Обгортка BrowserRouter */}
+      <Navigation />
+      <AppRoutes />
+    </BrowserRouter>
+  );
 }
 
 export default App;

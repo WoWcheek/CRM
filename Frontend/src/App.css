@@ -1,0 +1,9 @@
+body {
+    background-image: url('/src/img/fon_front.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;    
+    margin: 0;
+    font-family: Arial, sans-serif;
+  }
+  
