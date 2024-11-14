@@ -2,16 +2,17 @@ import React from 'react';
 
 function Home() {
   const features = [
-    { title: 'Управління контактами', description: 'Ведіть повну базу клієнтів.' },
-    { title: 'Воронка продажів', description: 'Відстежуйте всі етапи продажів.' },
-    { title: 'Підтримка клієнтів', description: 'Швидко реагуйте на запити.' },
+    { title: 'Contact Management', description: 'Maintain a complete client database.' },
+    { title: 'Sales Funnel', description: 'Track all stages of sales.' },
+    { title: 'Customer Support', description: 'Respond quickly to inquiries.' },
   ];
+  
 
   return (
     <div style={styles.container}>
       <div style={styles.textContainer}>
-        <h1 style={styles.heading}>Вітаємо у CRM-системі</h1>
-        <p style={styles.paragraph}>Ефективно керуйте своїми контактами, продажами та підтримкою!</p>
+        <h1 style={styles.heading}>Welcome to the CRM System</h1>
+        <p style={styles.paragraph}>Effectively manage your contacts, sales, and support!</p>
       </div>
       <div style={styles.cardContainer}>
         {features.map((feature, index) => (

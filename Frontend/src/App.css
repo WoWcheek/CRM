@@ -1,5 +1,6 @@
 body {
-    background-image: url('/src/img/fon_front.jpg');
+    /*background-image: url('/src/img/fon_front.jpg');*/
+    background-color:slategrey;
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;    

@@ -1,16 +1,17 @@
 import React from 'react';
-import { Link } from 'react-router-dom'; // Для посилань всередині маршрутизатора
+import { Link } from 'react-router-dom'; 
 
 function Navigation() {
   return (
     <nav style={styles.nav}>
-      <Link to="/" style={styles.link}>Головна</Link>
-      <Link to="/sellers" style={styles.link}>Продавці</Link>
-      <Link to="/buyers" style={styles.link}>Покупці</Link>
-      <Link to="/products" style={styles.link}>Товари</Link>
-      <Link to="/sales" style={styles.link}>Продажі</Link>
-      <Link to="/support" style={styles.link}>Підтримка</Link>
-      <Link to="/contacts" style={styles.link}>Наші контакти</Link>
+      <Link to="/" style={styles.link}>HOME</Link>
+      <Link to="/sellers" style={styles.link}>Sellers</Link>
+      <Link to="/buyers" style={styles.link}>Buyers</Link>
+      <Link to="/products" style={styles.link}>Products</Link>
+      <Link to="/sales" style={styles.link}>Sales</Link>
+      <Link to="/analyses" style={styles.link}>Analyses</Link>
+      <Link to="/supports" style={styles.link}>Supports</Link>
+      <Link to="/contacts" style={styles.link}>Contacts</Link>
     </nav>
   );
 }
