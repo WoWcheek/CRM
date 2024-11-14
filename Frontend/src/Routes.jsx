@@ -1,7 +1,7 @@
 import React from 'react';
-import { Routes, Route } from 'react-router-dom'; // Зверніть увагу на імпорт
+import { Routes, Route } from 'react-router-dom'; 
 import Home from './components/Home.jsx';
-import Sallers from './components/Sallers.jsx';
+import Sellers from './components/Sellers.jsx';
 import Products from './components/Products.jsx';
 import Buyers from './components/Buyers.jsx';
 import Sales from './components/Sales.jsx';
@@ -12,7 +12,7 @@ function AppRoutes() {
   return (
     <Routes>
       <Route path="/" element={<Home />} />
-      <Route path="/sallers" element={<Sallers />} />
+      <Route path="/sellers" element={<Sellers />} />
       <Route path="/buyers" element={<Buyers />} />
       <Route path="/products" element={<Products />} />
       <Route path="/sales" element={<Sales />} />

@@ -5,7 +5,7 @@ function Navigation() {
   return (
     <nav style={styles.nav}>
       <Link to="/" style={styles.link}>Головна</Link>
-      <Link to="/sallers" style={styles.link}>Продавці</Link>
+      <Link to="/sellers" style={styles.link}>Продавці</Link>
       <Link to="/buyers" style={styles.link}>Покупці</Link>
       <Link to="/products" style={styles.link}>Товари</Link>
       <Link to="/sales" style={styles.link}>Продажі</Link>
