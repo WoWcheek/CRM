@@ -5,7 +5,7 @@ import Sellers from './components/Sellers.jsx';
 import Products from './components/Products.jsx';
 import Buyers from './components/Buyers.jsx';
 import Sales from './components/Sales.jsx';
-import Support from './components/Support.jsx';
+import Analyses from './components/Analyses.jsx';
 import Contacts from './components/Contacts.jsx';
 
 function AppRoutes() {
@@ -16,7 +16,7 @@ function AppRoutes() {
       <Route path="/buyers" element={<Buyers />} />
       <Route path="/products" element={<Products />} />
       <Route path="/sales" element={<Sales />} />
-      <Route path="/support" element={<Support />} />
+      <Route path="/analyses" element={<Analyses />} />
       <Route path="/contacts" element={<Contacts />} />
     </Routes>
   );
