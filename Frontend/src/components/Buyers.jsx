@@ -2,57 +2,219 @@ import React, { useState } from 'react';
 
 function Buyers() {
   const [buyers, setBuyers] = useState([]);
-  const [newBuyer, setNewBuyer] = useState({ name: '', email: '' });
+  const [newBuyer, setNewBuyer] = useState({
+    fullName: '',
+    gender: '',
+    dateOfBirth: '',
+    country: '',
+    phoneNumber: '',
+    email: '',
+  });
+  const [errors, setErrors] = useState({});
+
+  const validateInput = () => {
+    const newErrors = {};
+    const phoneRegex = /^\d{10}$/; // 10 цифр для номера телефону
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
+    const genderRegex = /^(male|female|other)$/i; // лише "male", "female" або "other"
+    const countryRegex = /^[a-zA-Z\s]+$/; // лише літери та пробіли
+
+    if (!newBuyer.fullName.trim()) {
+      newErrors.fullName = 'Full name is required.';
+    }
+
+    if (!genderRegex.test(newBuyer.gender)) {
+      newErrors.gender = 'Gender must be "male", "female", or "other".';
+    }
+
+    if (!dateRegex.test(newBuyer.dateOfBirth)) {
+      newErrors.dateOfBirth = 'Date of birth must be in YYYY-MM-DD format.';
+    }
+
+    if (!countryRegex.test(newBuyer.country)) {
+      newErrors.country = 'Country must contain only letters.';
+    }
+
+    if (!phoneRegex.test(newBuyer.phoneNumber)) {
+      newErrors.phoneNumber = 'Phone number must be 10 digits.';
+    }
+
+    if (!emailRegex.test(newBuyer.email)) {
+      newErrors.email = 'Invalid email format.';
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0; // true, якщо помилок немає
+  };
 
   const handleAddBuyer = () => {
-    setBuyers([...buyers, { ...newBuyer, id: Date.now() }]);
-    setNewBuyer({ name: '', email: '' });
+    if (validateInput()) {
+      setBuyers([...buyers, { ...newBuyer, id: Date.now() }]);
+      setNewBuyer({
+        fullName: '',
+        gender: '',
+        dateOfBirth: '',
+        country: '',
+        phoneNumber: '',
+        email: '',
+      });
+      setErrors({});
+    }
   };
 
   const handleDeleteBuyer = (id) => {
     setBuyers(buyers.filter((buyer) => buyer.id !== id));
   };
 
-  const handleUpdateBuyer = (id, updatedBuyer) => {
-    setBuyers(
-      buyers.map((buyer) => (buyer.id === id ? { ...buyer, ...updatedBuyer } : buyer))
-    );
-  };
-
   return (
-    <div>
-      <h2>Контакти покупців</h2>
-      <input
-        type="text"
-        placeholder="Ім'я покупця"
-        value={newBuyer.name}
-        onChange={(e) => setNewBuyer({ ...newBuyer, name: e.target.value })}
-      />
-      <input
-        type="email"
-        placeholder="Email"
-        value={newBuyer.email}
-        onChange={(e) => setNewBuyer({ ...newBuyer, email: e.target.value })}
-      />
-      <button onClick={handleAddBuyer}>Додати покупця</button>
+    <div style={styles.container}>
+      <h1 style={styles.title}>Buyers Page</h1>
+      <form style={styles.form} onSubmit={(e) => e.preventDefault()}>
+        <input
+          type="text"
+          placeholder="Full Name"
+          value={newBuyer.fullName}
+          onChange={(e) => setNewBuyer({ ...newBuyer, fullName: e.target.value })}
+          style={styles.input}
+        />
+        {errors.fullName && <p style={styles.error}>{errors.fullName}</p>}
 
-      <ul>
-        {buyers.map((buyer) => (
-          <li key={buyer.id}>
-            {buyer.name} ({buyer.email}){' '}
-            <button onClick={() => handleDeleteBuyer(buyer.id)}>Видалити</button>
-            <button
-              onClick={() =>
-                handleUpdateBuyer(buyer.id, { name: 'Updated Name', email: 'updated@mail.com' })
-              }
-            >
-              Оновити
-            </button>
-          </li>
-        ))}
-      </ul>
+        <input
+          type="text"
+          placeholder="Gender (male/female/other)"
+          value={newBuyer.gender}
+          onChange={(e) => setNewBuyer({ ...newBuyer, gender: e.target.value })}
+          style={styles.input}
+        />
+        {errors.gender && <p style={styles.error}>{errors.gender}</p>}
+
+        <input
+          type="date"
+          placeholder="Date of Birth"
+          value={newBuyer.dateOfBirth}
+          onChange={(e) => setNewBuyer({ ...newBuyer, dateOfBirth: e.target.value })}
+          style={styles.input}
+        />
+        {errors.dateOfBirth && <p style={styles.error}>{errors.dateOfBirth}</p>}
+
+        <input
+          type="text"
+          placeholder="Country"
+          value={newBuyer.country}
+          onChange={(e) => setNewBuyer({ ...newBuyer, country: e.target.value })}
+          style={styles.input}
+        />
+        {errors.country && <p style={styles.error}>{errors.country}</p>}
+
+        <input
+          type="text"
+          placeholder="Phone Number (10 digits)"
+          value={newBuyer.phoneNumber}
+          onChange={(e) => setNewBuyer({ ...newBuyer, phoneNumber: e.target.value })}
+          style={styles.input}
+        />
+        {errors.phoneNumber && <p style={styles.error}>{errors.phoneNumber}</p>}
+
+        <input
+          type="email"
+          placeholder="Email"
+          value={newBuyer.email}
+          onChange={(e) => setNewBuyer({ ...newBuyer, email: e.target.value })}
+          style={styles.input}
+        />
+        {errors.email && <p style={styles.error}>{errors.email}</p>}
+
+        <button type="button" onClick={handleAddBuyer} style={styles.button}>
+          Add Buyer
+        </button>
+      </form>
+
+      <table style={styles.table}>
+        <thead>
+          <tr>
+            <th>Full Name</th>
+            <th>Gender</th>
+            <th>Date of Birth</th>
+            <th>Country</th>
+            <th>Phone Number</th>
+            <th>Email</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {buyers.map((buyer) => (
+            <tr key={buyer.id}>
+              <td>{buyer.fullName}</td>
+              <td>{buyer.gender}</td>
+              <td>{buyer.dateOfBirth}</td>
+              <td>{buyer.country}</td>
+              <td>{buyer.phoneNumber}</td>
+              <td>{buyer.email}</td>
+              <td>
+                <button onClick={() => handleDeleteBuyer(buyer.id)} style={styles.actionButton}>
+                  Delete
+                </button>
+                <button style={styles.actionButton}>Edit</button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 }
+
+const styles = {
+  container: {
+    padding: '20px',
+    backgroundColor: '#f0f0f0',
+    borderRadius: '10px',
+    maxWidth: '1200px',
+    margin: '0 auto',
+  },
+  title: {
+    textAlign: 'center',
+    marginBottom: '20px',
+  },
+  form: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '10px',
+    marginBottom: '20px',
+  },
+  input: {
+    padding: '10px',
+    borderRadius: '5px',
+    border: '1px solid #ccc',
+  },
+  error: {
+    color: 'red',
+    fontSize: '12px',
+    margin: '0',
+  },
+  button: {
+    padding: '10px 20px',
+    borderRadius: '5px',
+    border: 'none',
+    backgroundColor: '#007bff',
+    color: '#fff',
+    cursor: 'pointer',
+  },
+  table: {
+    width: '100%',
+    borderCollapse: 'collapse',
+    textAlign: 'left',
+  },
+  actionButton: {
+    margin: '0 5px',
+    padding: '5px 10px',
+    borderRadius: '5px',
+    border: 'none',
+    cursor: 'pointer',
+    backgroundColor: '#28a745',
+    color: '#fff',
+  },
+};
 
 export default Buyers;
