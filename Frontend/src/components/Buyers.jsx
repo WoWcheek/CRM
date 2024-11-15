@@ -11,6 +11,7 @@ function Buyers() {
     email: '',
   });
   const [errors, setErrors] = useState({});
+  const [searchQuery, setSearchQuery] = useState('');
 
   const validateInput = () => {
     const newErrors = {};
@@ -67,10 +68,25 @@ function Buyers() {
     setBuyers(buyers.filter((buyer) => buyer.id !== id));
   };
 
+  const filteredBuyers = buyers.filter((buyer) => {
+    return (
+      buyer.fullName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      buyer.phoneNumber.includes(searchQuery)
+    );
+  });
+
   return (
     <div style={styles.container}>
       <h1 style={styles.title}>Buyers Page</h1>
+
       <form style={styles.form} onSubmit={(e) => e.preventDefault()}>
+        <input
+          type="text"
+          placeholder="Search by Full Name or Phone Number"
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          style={styles.input}
+        />
         <input
           type="text"
           placeholder="Full Name"
@@ -143,7 +159,7 @@ function Buyers() {
           </tr>
         </thead>
         <tbody>
-          {buyers.map((buyer) => (
+          {filteredBuyers.map((buyer) => (
             <tr key={buyer.id}>
               <td>{buyer.fullName}</td>
               <td>{buyer.gender}</td>
@@ -152,10 +168,10 @@ function Buyers() {
               <td>{buyer.phoneNumber}</td>
               <td>{buyer.email}</td>
               <td>
-                <button onClick={() => handleDeleteBuyer(buyer.id)} style={styles.actionButton}>
+                <button onClick={() => handleDeleteBuyer(buyer.id)} style={styles.deleteButton}>
                   Delete
                 </button>
-                <button style={styles.actionButton}>Edit</button>
+                <button style={styles.editButton}>Edit</button>
               </td>
             </tr>
           ))}
@@ -208,14 +224,22 @@ const styles = {
     borderCollapse: 'collapse',
     textAlign: 'left',
   },
-  actionButton: {
-    margin: '0 5px',
-    padding: '5px 10px',
-    borderRadius: '5px',
-    border: 'none',
-    cursor: 'pointer',
-    backgroundColor: '#28a745',
+  deleteButton: {
+    backgroundColor: 'red',
     color: '#fff',
+    border: 'none',
+    padding: '5px',
+    borderRadius: '5px',
+    cursor: 'pointer',
+    marginRight: '5px',
+  },
+  editButton: {
+    backgroundColor: 'green',
+    color: '#fff',
+    border: 'none',
+    padding: '5px',
+    borderRadius: '5px',
+    cursor: 'pointer',
   },
 };
 

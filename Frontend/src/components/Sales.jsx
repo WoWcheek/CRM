@@ -10,7 +10,9 @@ function Sales() {
     startDate: '',
     cancelDate: '',
     completionDate: '',
+    status: 'In Progress', // Default status
   });
+  const [searchTitle, setSearchTitle] = useState('');
 
   const handleAddSale = () => {
     setSales([...sales, { ...newSale, id: Date.now() }]);
@@ -22,13 +24,32 @@ function Sales() {
       startDate: '',
       cancelDate: '',
       completionDate: '',
+      status: 'In Progress',
     });
   };
+
+  const handleDeleteSale = (id) => {
+    setSales(sales.filter((sale) => sale.id !== id));
+  };
+
+  const filteredSales = sales.filter((sale) =>
+    sale.title.toLowerCase().includes(searchTitle.toLowerCase())
+  );
+
+  const allTitles = sales.map((sale) => sale.title).join(', ');
 
   return (
     <div style={styles.container}>
       <h1>Sales Page</h1>
+
       <div style={styles.form}>
+        <input
+          style={styles.input}
+          type="text"
+          placeholder="Search by Title"
+          value={searchTitle}
+          onChange={(e) => setSearchTitle(e.target.value)}
+        />
         <input
           style={styles.input}
           type="text"
@@ -78,10 +99,21 @@ function Sales() {
           value={newSale.completionDate}
           onChange={(e) => setNewSale({ ...newSale, completionDate: e.target.value })}
         />
+        <select
+          style={styles.input}
+          value={newSale.status}
+          onChange={(e) => setNewSale({ ...newSale, status: e.target.value })}
+        >
+          <option value="In Progress">In Progress</option>
+          <option value="Completed">Completed</option>
+        </select>
         <button style={styles.button} onClick={handleAddSale}>
           Add Sale
         </button>
       </div>
+
+      <p><strong>All Titles:</strong> {allTitles || 'No sales available'}</p>
+
       <table style={styles.table}>
         <thead>
           <tr>
@@ -92,11 +124,12 @@ function Sales() {
             <th>Start Date</th>
             <th>Cancel Date</th>
             <th>Completion Date</th>
+            <th>Status</th>
             <th>Actions</th>
           </tr>
         </thead>
         <tbody>
-          {sales.map((sale) => (
+          {filteredSales.map((sale) => (
             <tr key={sale.id}>
               <td>{sale.client}</td>
               <td>{sale.title}</td>
@@ -105,8 +138,11 @@ function Sales() {
               <td>{sale.startDate}</td>
               <td>{sale.cancelDate}</td>
               <td>{sale.completionDate}</td>
+              <td>{sale.status}</td>
               <td>
-                <button style={styles.deleteButton}>Delete</button>
+                <button style={styles.deleteButton} onClick={() => handleDeleteSale(sale.id)}>
+                  Delete
+                </button>
                 <button style={styles.editButton}>Edit</button>
               </td>
             </tr>
@@ -127,7 +163,6 @@ const styles = {
     boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)',
     textAlign: 'center',
   },
-  
   form: {
     display: 'flex',
     flexDirection: 'column',
