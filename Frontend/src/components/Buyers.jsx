@@ -14,11 +14,11 @@ function Buyers() {
 
   const validateInput = () => {
     const newErrors = {};
-    const phoneRegex = /^\d{10}$/; // 10 цифр для номера телефону
+    const phoneRegex = /^\d{10}$/; 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
-    const genderRegex = /^(male|female|other)$/i; // лише "male", "female" або "other"
-    const countryRegex = /^[a-zA-Z\s]+$/; // лише літери та пробіли
+    const genderRegex = /^(male|female|other)$/i; 
+    const countryRegex = /^[a-zA-Z\s]+$/; 
 
     if (!newBuyer.fullName.trim()) {
       newErrors.fullName = 'Full name is required.';
@@ -45,7 +45,7 @@ function Buyers() {
     }
 
     setErrors(newErrors);
-    return Object.keys(newErrors).length === 0; // true, якщо помилок немає
+    return Object.keys(newErrors).length === 0; 
   };
 
   const handleAddBuyer = () => {
@@ -185,6 +185,7 @@ const styles = {
   },
   input: {
     padding: '10px',
+    fontSize: '16px',
     borderRadius: '5px',
     border: '1px solid #ccc',
   },
@@ -196,6 +197,7 @@ const styles = {
   button: {
     padding: '10px 20px',
     borderRadius: '5px',
+    fontSize: '16px',
     border: 'none',
     backgroundColor: '#007bff',
     color: '#fff',

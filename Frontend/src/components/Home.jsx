@@ -45,9 +45,10 @@ const styles = {
   card: {
     backgroundColor: '#fff',
     padding: '15px',
+    fontSize: '24px',
     borderRadius: '8px',
     boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)',
-    maxWidth: '200px',
+    maxWidth: '250px',
     textAlign: 'left',
   },
   textContainer: {

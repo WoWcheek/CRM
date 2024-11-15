@@ -8,7 +8,7 @@ import Navigation from './components/Navigation.jsx';
 function App() {
   return (
     
-    <BrowserRouter> {/* Обгортка BrowserRouter */}
+    <BrowserRouter> 
       <Navigation />
       <AppRoutes />
     </BrowserRouter>
