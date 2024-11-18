@@ -1,246 +1,363 @@
-import React, { useState } from 'react';
+import { useEffect, useState } from "react";
+import { API_URL } from "../utils/constants";
+import axios from "axios";
+import toast from "react-hot-toast";
 
 function Buyers() {
-  const [buyers, setBuyers] = useState([]);
-  const [newBuyer, setNewBuyer] = useState({
-    fullName: '',
-    gender: '',
-    dateOfBirth: '',
-    country: '',
-    phoneNumber: '',
-    email: '',
-  });
-  const [errors, setErrors] = useState({});
-  const [searchQuery, setSearchQuery] = useState('');
+    const [isEditing, setIsEditing] = useState(false);
+    const [id, setId] = useState(null);
+    const [buyers, setBuyers] = useState([]);
+    const [newBuyer, setNewBuyer] = useState({
+        fullName: "",
+        gender: 0,
+        country: "",
+        phoneNumber: "",
+        email: ""
+    });
 
-  const validateInput = () => {
-    const newErrors = {};
-    const phoneRegex = /^\d{10}$/; 
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
-    const genderRegex = /^(male|female|other)$/i; 
-    const countryRegex = /^[a-zA-Z\s]+$/; 
+    const [errors, setErrors] = useState({});
 
-    if (!newBuyer.fullName.trim()) {
-      newErrors.fullName = 'Full name is required.';
-    }
+    useEffect(() => {
+        axios
+            .get(API_URL + "/client")
+            .then(response => {
+                setBuyers(response.data);
+            })
+            .catch(() => {
+                setBuyers([]);
+            });
+    }, []);
 
-    if (!genderRegex.test(newBuyer.gender)) {
-      newErrors.gender = 'Gender must be "male", "female", or "other".';
-    }
+    const validateInput = () => {
+        const newErrors = {};
+        const phoneRegex = /^\d{10}$/;
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        const countryRegex = /^[a-zA-Z\s]+$/;
 
-    if (!dateRegex.test(newBuyer.dateOfBirth)) {
-      newErrors.dateOfBirth = 'Date of birth must be in YYYY-MM-DD format.';
-    }
+        if (!newBuyer.fullName.trim()) {
+            newErrors.fullName = "Full name is required.";
+        }
 
-    if (!countryRegex.test(newBuyer.country)) {
-      newErrors.country = 'Country must contain only letters.';
-    }
+        if (!countryRegex.test(newBuyer.country)) {
+            newErrors.country = "Country must contain only letters.";
+        }
 
-    if (!phoneRegex.test(newBuyer.phoneNumber)) {
-      newErrors.phoneNumber = 'Phone number must be 10 digits.';
-    }
+        if (!phoneRegex.test(newBuyer.phoneNumber)) {
+            newErrors.phoneNumber = "Phone number must be 10 digits.";
+        }
 
-    if (!emailRegex.test(newBuyer.email)) {
-      newErrors.email = 'Invalid email format.';
-    }
+        if (!emailRegex.test(newBuyer.email)) {
+            newErrors.email = "Invalid email format.";
+        }
 
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0; 
-  };
+        setErrors(newErrors);
+        return Object.keys(newErrors).length === 0;
+    };
 
-  const handleAddBuyer = () => {
-    if (validateInput()) {
-      setBuyers([...buyers, { ...newBuyer, id: Date.now() }]);
-      setNewBuyer({
-        fullName: '',
-        gender: '',
-        dateOfBirth: '',
-        country: '',
-        phoneNumber: '',
-        email: '',
-      });
-      setErrors({});
-    }
-  };
+    const handleAddBuyer = () => {
+        if (validateInput()) {
+            axios
+                .post(API_URL + "/client", newBuyer)
+                .then(() => {
+                    toast.success("New client was added successfully");
+                    axios
+                        .get(API_URL + "/client")
+                        .then(response => {
+                            setBuyers(response.data);
+                        })
+                        .catch(() => {
+                            setBuyers([]);
+                        });
+                })
+                .catch(() => {
+                    toast.success("New client can not be added");
+                });
 
-  const handleDeleteBuyer = (id) => {
-    setBuyers(buyers.filter((buyer) => buyer.id !== id));
-  };
+            clearInputs();
+        }
+    };
 
-  const filteredBuyers = buyers.filter((buyer) => {
+    const clearInputs = () => {
+        setNewBuyer({
+            fullName: "",
+            gender: "",
+            dateOfBirth: "",
+            country: "",
+            phoneNumber: "",
+            email: ""
+        });
+        setErrors({});
+    };
+
+    const handleEditBuyer = () => {
+        if (validateInput()) {
+            axios
+                .put(API_URL + "/client/" + id, newBuyer)
+                .then(() => {
+                    toast.success("Client was saved successfully");
+                    axios
+                        .get(API_URL + "/client")
+                        .then(response => {
+                            setBuyers(response.data);
+                        })
+                        .catch(() => {
+                            setBuyers([]);
+                        });
+                })
+                .catch(() => {
+                    toast.success("Client can not be saved");
+                })
+                .finally(() => setIsEditing(false));
+
+            clearInputs();
+        }
+    };
+
+    const handleDeleteBuyer = id => {
+        axios
+            .delete(API_URL + "/client/" + id, newBuyer)
+            .then(() => {
+                toast.success("Client was deleted successfully");
+                axios
+                    .get(API_URL + "/client")
+                    .then(response => {
+                        setBuyers(response.data);
+                    })
+                    .catch(() => {
+                        setBuyers([]);
+                    });
+            })
+            .catch(() => {
+                toast.success("Client can not be deleted");
+            })
+            .finally(() => setIsEditing(false));
+    };
+
+    const handleEditClick = (id, client) => {
+        setId(id);
+        setIsEditing(true);
+        setNewBuyer(client);
+    };
+
     return (
-      buyer.fullName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      buyer.phoneNumber.includes(searchQuery)
+        <div style={styles.container}>
+            <h1 style={styles.title}>Buyers Page</h1>
+
+            <form style={styles.form} onSubmit={e => e.preventDefault()}>
+                <input
+                    type="text"
+                    placeholder="Full Name"
+                    value={newBuyer.fullName}
+                    onChange={e =>
+                        setNewBuyer({ ...newBuyer, fullName: e.target.value })
+                    }
+                    style={styles.input}
+                />
+                {errors.fullName && (
+                    <p style={styles.error}>{errors.fullName}</p>
+                )}
+
+                <select
+                    id="gender"
+                    value={newBuyer.gender}
+                    onChange={e =>
+                        setNewBuyer({ ...newBuyer, gender: e.target.value })
+                    }
+                    style={styles.input}>
+                    <option value="0">Male</option>
+                    <option value="1">Female</option>
+                </select>
+
+                <input
+                    type="text"
+                    placeholder="Country"
+                    value={newBuyer.country}
+                    onChange={e =>
+                        setNewBuyer({ ...newBuyer, country: e.target.value })
+                    }
+                    style={styles.input}
+                />
+                {errors.country && <p style={styles.error}>{errors.country}</p>}
+
+                <input
+                    type="text"
+                    placeholder="Phone Number (10 digits)"
+                    value={newBuyer.phoneNumber}
+                    onChange={e =>
+                        setNewBuyer({
+                            ...newBuyer,
+                            phoneNumber: e.target.value
+                        })
+                    }
+                    style={styles.input}
+                />
+                {errors.phoneNumber && (
+                    <p style={styles.error}>{errors.phoneNumber}</p>
+                )}
+
+                <input
+                    type="email"
+                    placeholder="Email"
+                    value={newBuyer.email}
+                    onChange={e =>
+                        setNewBuyer({ ...newBuyer, email: e.target.value })
+                    }
+                    style={styles.input}
+                />
+                {errors.email && <p style={styles.error}>{errors.email}</p>}
+
+                {isEditing ? (
+                    <div style={{ display: "flex", gap: "2rem" }}>
+                        <button
+                            type="button"
+                            onClick={handleEditBuyer}
+                            style={styles.saveBtn}>
+                            Save
+                        </button>
+                        <button
+                            type="button"
+                            onClick={() => {
+                                clearInputs();
+                                setIsEditing(false);
+                            }}
+                            style={styles.cancelBtn}>
+                            Cancel
+                        </button>
+                    </div>
+                ) : (
+                    <button
+                        type="button"
+                        onClick={handleAddBuyer}
+                        style={styles.button}>
+                        Add Buyer
+                    </button>
+                )}
+            </form>
+
+            <table style={styles.table}>
+                <thead style={{ paddingBottom: "1rem" }}>
+                    <tr>
+                        <th>Full Name</th>
+                        <th>Gender</th>
+                        <th>Country</th>
+                        <th>Phone Number</th>
+                        <th>Email</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {buyers.map(buyer => (
+                        <tr key={buyer.id} style={{ paddingBottom: "1rem" }}>
+                            <td>{buyer.fullName}</td>
+                            <td>{buyer.gender == 0 ? "Male" : "Female"}</td>
+                            <td>{buyer.country}</td>
+                            <td>{buyer.phoneNumber}</td>
+                            <td>{buyer.email}</td>
+                            <td>
+                                <button
+                                    style={styles.editButton}
+                                    onClick={() =>
+                                        handleEditClick(buyer.id, buyer)
+                                    }>
+                                    Edit
+                                </button>
+                                <button
+                                    onClick={() => handleDeleteBuyer(buyer.id)}
+                                    style={styles.deleteButton}>
+                                    Delete
+                                </button>
+                            </td>
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
+        </div>
     );
-  });
-
-  return (
-    <div style={styles.container}>
-      <h1 style={styles.title}>Buyers Page</h1>
-
-      <form style={styles.form} onSubmit={(e) => e.preventDefault()}>
-        <input
-          type="text"
-          placeholder="Search by Full Name or Phone Number"
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-          style={styles.input}
-        />
-        <input
-          type="text"
-          placeholder="Full Name"
-          value={newBuyer.fullName}
-          onChange={(e) => setNewBuyer({ ...newBuyer, fullName: e.target.value })}
-          style={styles.input}
-        />
-        {errors.fullName && <p style={styles.error}>{errors.fullName}</p>}
-
-        <input
-          type="text"
-          placeholder="Gender (male/female/other)"
-          value={newBuyer.gender}
-          onChange={(e) => setNewBuyer({ ...newBuyer, gender: e.target.value })}
-          style={styles.input}
-        />
-        {errors.gender && <p style={styles.error}>{errors.gender}</p>}
-
-        <input
-          type="date"
-          placeholder="Date of Birth"
-          value={newBuyer.dateOfBirth}
-          onChange={(e) => setNewBuyer({ ...newBuyer, dateOfBirth: e.target.value })}
-          style={styles.input}
-        />
-        {errors.dateOfBirth && <p style={styles.error}>{errors.dateOfBirth}</p>}
-
-        <input
-          type="text"
-          placeholder="Country"
-          value={newBuyer.country}
-          onChange={(e) => setNewBuyer({ ...newBuyer, country: e.target.value })}
-          style={styles.input}
-        />
-        {errors.country && <p style={styles.error}>{errors.country}</p>}
-
-        <input
-          type="text"
-          placeholder="Phone Number (10 digits)"
-          value={newBuyer.phoneNumber}
-          onChange={(e) => setNewBuyer({ ...newBuyer, phoneNumber: e.target.value })}
-          style={styles.input}
-        />
-        {errors.phoneNumber && <p style={styles.error}>{errors.phoneNumber}</p>}
-
-        <input
-          type="email"
-          placeholder="Email"
-          value={newBuyer.email}
-          onChange={(e) => setNewBuyer({ ...newBuyer, email: e.target.value })}
-          style={styles.input}
-        />
-        {errors.email && <p style={styles.error}>{errors.email}</p>}
-
-        <button type="button" onClick={handleAddBuyer} style={styles.button}>
-          Add Buyer
-        </button>
-      </form>
-
-      <table style={styles.table}>
-        <thead>
-          <tr>
-            <th>Full Name</th>
-            <th>Gender</th>
-            <th>Date of Birth</th>
-            <th>Country</th>
-            <th>Phone Number</th>
-            <th>Email</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {filteredBuyers.map((buyer) => (
-            <tr key={buyer.id}>
-              <td>{buyer.fullName}</td>
-              <td>{buyer.gender}</td>
-              <td>{buyer.dateOfBirth}</td>
-              <td>{buyer.country}</td>
-              <td>{buyer.phoneNumber}</td>
-              <td>{buyer.email}</td>
-              <td>
-                <button onClick={() => handleDeleteBuyer(buyer.id)} style={styles.deleteButton}>
-                  Delete
-                </button>
-                <button style={styles.editButton}>Edit</button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
-  );
 }
 
 const styles = {
-  container: {
-    padding: '20px',
-    backgroundColor: '#f0f0f0',
-    borderRadius: '10px',
-    maxWidth: '1200px',
-    margin: '0 auto',
-  },
-  title: {
-    textAlign: 'center',
-    marginBottom: '20px',
-  },
-  form: {
-    display: 'flex',
-    flexDirection: 'column',
-    gap: '10px',
-    marginBottom: '20px',
-  },
-  input: {
-    padding: '10px',
-    fontSize: '16px',
-    borderRadius: '5px',
-    border: '1px solid #ccc',
-  },
-  error: {
-    color: 'red',
-    fontSize: '12px',
-    margin: '0',
-  },
-  button: {
-    padding: '10px 20px',
-    borderRadius: '5px',
-    fontSize: '16px',
-    border: 'none',
-    backgroundColor: '#007bff',
-    color: '#fff',
-    cursor: 'pointer',
-  },
-  table: {
-    width: '100%',
-    borderCollapse: 'collapse',
-    textAlign: 'left',
-  },
-  deleteButton: {
-    backgroundColor: 'red',
-    color: '#fff',
-    border: 'none',
-    padding: '5px',
-    borderRadius: '5px',
-    cursor: 'pointer',
-    marginRight: '5px',
-  },
-  editButton: {
-    backgroundColor: 'green',
-    color: '#fff',
-    border: 'none',
-    padding: '5px',
-    borderRadius: '5px',
-    cursor: 'pointer',
-  },
+    container: {
+        padding: "20px",
+        backgroundColor: "#f0f0f0",
+        borderRadius: "10px",
+        maxWidth: "1200px",
+        margin: "0 auto"
+    },
+    title: {
+        textAlign: "center",
+        marginBottom: "20px"
+    },
+    form: {
+        display: "flex",
+        flexDirection: "column",
+        gap: "10px",
+        marginBottom: "20px"
+    },
+    input: {
+        padding: "10px",
+        fontSize: "16px",
+        borderRadius: "5px",
+        border: "1px solid #ccc"
+    },
+    error: {
+        color: "red",
+        fontSize: "12px",
+        margin: "0"
+    },
+    button: {
+        padding: "10px 20px",
+        borderRadius: "5px",
+        fontSize: "16px",
+        border: "none",
+        backgroundColor: "#007bff",
+        color: "#fff",
+        cursor: "pointer",
+        width: "fit-content"
+    },
+    saveBtn: {
+        padding: "10px 20px",
+        borderRadius: "5px",
+        fontSize: "16px",
+        border: "none",
+        backgroundColor: "green",
+        color: "#fff",
+        cursor: "pointer",
+        width: "fit-content"
+    },
+    cancelBtn: {
+        padding: "10px 20px",
+        borderRadius: "5px",
+        fontSize: "16px",
+        border: "none",
+        backgroundColor: "red",
+        color: "#fff",
+        cursor: "pointer",
+        width: "fit-content"
+    },
+    table: {
+        width: "100%",
+        borderCollapse: "separate",
+        textAlign: "left",
+        rowGap: "10px",
+        borderSpacing: "0 10px"
+    },
+    deleteButton: {
+        backgroundColor: "red",
+        color: "#fff",
+        border: "none",
+        padding: "5px",
+        borderRadius: "5px",
+        cursor: "pointer"
+    },
+    editButton: {
+        backgroundColor: "green",
+        color: "#fff",
+        border: "none",
+        padding: "5px",
+        borderRadius: "5px",
+        cursor: "pointer",
+        marginRight: "10px"
+    }
 };
 
 export default Buyers;
