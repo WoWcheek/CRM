@@ -27,6 +27,8 @@ const SignIn = () => {
             toast.success("Logged in successfully");
             localStorage.setItem("authToken", res.data.token);
             navigate("/");
+        } else {
+            toast.error("Error occurred trying to sign in");
         }
     };
 
