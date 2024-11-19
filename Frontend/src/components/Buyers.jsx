@@ -70,7 +70,7 @@ function Buyers() {
                         });
                 })
                 .catch(() => {
-                    toast.success("New client can not be added");
+                    toast.error("New client can not be added");
                 });
 
             clearInputs();
@@ -80,7 +80,7 @@ function Buyers() {
     const clearInputs = () => {
         setNewBuyer({
             fullName: "",
-            gender: "",
+            gender: 0,
             dateOfBirth: "",
             country: "",
             phoneNumber: "",
@@ -105,7 +105,7 @@ function Buyers() {
                         });
                 })
                 .catch(() => {
-                    toast.success("Client can not be saved");
+                    toast.error("Client can not be saved");
                 })
                 .finally(() => setIsEditing(false));
 
@@ -115,7 +115,7 @@ function Buyers() {
 
     const handleDeleteBuyer = id => {
         axios
-            .delete(API_URL + "/client/" + id, newBuyer)
+            .delete(API_URL + "/client/" + id)
             .then(() => {
                 toast.success("Client was deleted successfully");
                 axios
@@ -128,7 +128,7 @@ function Buyers() {
                     });
             })
             .catch(() => {
-                toast.success("Client can not be deleted");
+                toast.error("Client can not be deleted");
             })
             .finally(() => setIsEditing(false));
     };
@@ -161,7 +161,7 @@ function Buyers() {
                     id="gender"
                     value={newBuyer.gender}
                     onChange={e =>
-                        setNewBuyer({ ...newBuyer, gender: e.target.value })
+                        setNewBuyer({ ...newBuyer, gender: +e.target.value })
                     }
                     style={styles.input}>
                     <option value="0">Male</option>

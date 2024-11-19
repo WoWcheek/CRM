@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
 import {
-    HiMail,
     HiHome,
     HiPhone,
     HiUsers,
@@ -26,10 +25,6 @@ function Navigation() {
             <Link to="/analyses" style={styles.link}>
                 <HiTrendingUp />
                 Analyses
-            </Link>
-            <Link to="/supports" style={styles.link}>
-                <HiMail />
-                Supports
             </Link>
             <Link to="/contacts" style={styles.link}>
                 <HiPhone />
