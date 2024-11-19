@@ -24,7 +24,7 @@ const SignIn = () => {
         const res = await axios.post(API_URL + "/auth/" + endpoint, request);
 
         if (res?.data?.token) {
-            toast.error("Logged in successfully");
+            toast.success("Logged in successfully");
             localStorage.setItem("authToken", res.data.token);
             navigate("/");
         }
