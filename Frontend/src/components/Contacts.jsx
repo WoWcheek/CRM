@@ -110,7 +110,7 @@ const styles = {
     },
     contactDetails: {
         flex: 1,
-        backgroundColor: "#f9f9f9",
+        backgroundColor: "#79c7b1",
         padding: "15px",
         borderRadius: "8px",
         boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)",
@@ -120,13 +120,13 @@ const styles = {
     },
     map: {
         flex: 1,
-        backgroundColor: "#f9f9f9",
+        backgroundColor: "#79c7b1",
         padding: "15px",
         borderRadius: "8px",
         boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)"
     },
     formSection: {
-        backgroundColor: "#f9f9f9",
+        backgroundColor: "#79c7b1",
         padding: "20px",
         borderRadius: "8px",
         boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)"

@@ -338,7 +338,7 @@ const styles = {
         maxWidth: "1200px",
         margin: "auto",
         padding: "20px",
-        backgroundColor: "#f0f0f0",
+        backgroundColor: "#79c7b1",
         borderRadius: "10px",
         boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)",
         textAlign: "center"
@@ -370,7 +370,7 @@ const styles = {
     button: {
         padding: "10px",
         fontSize: "16px",
-        backgroundColor: "#007bff",
+        backgroundColor: "#a3a362",
         color: "#fff",
         border: "none",
         borderRadius: "5px",

@@ -45,7 +45,7 @@ const styles = {
         marginTop: "20px"
     },
     card: {
-        backgroundColor: "#fff",
+        backgroundColor: "#79c7b1",
         padding: "15px",
         fontSize: "24px",
         borderRadius: "8px",
@@ -54,7 +54,7 @@ const styles = {
         textAlign: "left"
     },
     textContainer: {
-        backgroundColor: "#fff",
+        backgroundColor: "#79c7b1",
         padding: "10px",
         display: "inline-block",
         borderRadius: "10px"

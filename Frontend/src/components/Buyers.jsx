@@ -278,7 +278,7 @@ function Buyers() {
 const styles = {
     container: {
         padding: "20px",
-        backgroundColor: "#f0f0f0",
+        backgroundColor: "#79c7b1",
         borderRadius: "10px",
         maxWidth: "1200px",
         margin: "0 auto"
@@ -309,7 +309,7 @@ const styles = {
         borderRadius: "5px",
         fontSize: "16px",
         border: "none",
-        backgroundColor: "#007bff",
+        backgroundColor: "#a3a362",
         color: "#fff",
         cursor: "pointer",
         width: "fit-content"

@@ -6,6 +6,7 @@ import {
     HiTrendingUp,
     HiCurrencyDollar
 } from "react-icons/hi";
+import { MdMargin } from "react-icons/md";
 
 function Navigation() {
     return (
@@ -38,8 +39,10 @@ const styles = {
     nav: {
         display: "flex",
         justifyContent: "space-around",
-        backgroundColor: "#333",
-        padding: "10px"
+        backgroundColor: "#49665d",
+        padding: "10px",
+        borderRadius: "8px",
+        margin: "10px"
     },
     link: {
         color: "#fff",

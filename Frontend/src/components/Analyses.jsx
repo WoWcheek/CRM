@@ -54,7 +54,7 @@ const styles = {
         width: "80%",
         margin: "auto",
         padding: "20px",
-        backgroundColor: "#f9f9f9",
+        backgroundColor: "#79c7b1",
         borderRadius: "10px",
         boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)",
         textAlign: "center"
@@ -70,7 +70,7 @@ const styles = {
     },
     card: {
         flex: "1 1 calc(25% - 20px)",
-        backgroundColor: "#007bff",
+        backgroundColor: "#45695f",
         color: "#fff",
         padding: "20px",
         borderRadius: "10px",
