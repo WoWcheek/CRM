@@ -4,7 +4,6 @@ import Sales from "./components/Sales.jsx";
 import Buyers from "./components/Buyers.jsx";
 import SignIn from "./components/SignIn.jsx";
 import Analyses from "./components/Analyses.jsx";
-import Supports from "./components/Supports.jsx";
 import Contacts from "./components/Contacts.jsx";
 import ProtectedRoute from "./components/ProtectedRoute.jsx";
 
@@ -34,14 +33,6 @@ function AppRoutes() {
                 element={
                     <ProtectedRoute>
                         <Analyses />
-                    </ProtectedRoute>
-                }
-            />
-            <Route
-                path="/supports"
-                element={
-                    <ProtectedRoute>
-                        <Supports />
                     </ProtectedRoute>
                 }
             />
