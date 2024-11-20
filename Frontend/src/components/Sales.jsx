@@ -44,7 +44,6 @@ function Sales() {
 
         if (!newSale.title.trim()) {
             newErrors.title = "Title is required.";
-            return false;
         }
 
         if (!newSale.description.trim()) {
@@ -65,7 +64,6 @@ function Sales() {
 
     const handleAddDeal = () => {
         if (validateInput()) {
-            console.log(1);
             axios
                 .post(API_URL + "/deals", newSale)
                 .then(() => {
@@ -80,7 +78,7 @@ function Sales() {
                         });
                 })
                 .catch(() => {
-                    toast.error("New sale can not be added");
+                    toast.error("New sale cannot be added");
                 });
 
             clearInputs();
@@ -113,7 +111,7 @@ function Sales() {
                         });
                 })
                 .catch(() => {
-                    toast.error("Sale can not be saved");
+                    toast.error("Sale cannot be saved");
                 })
                 .finally(() => setIsEditing(false));
 
@@ -136,53 +134,9 @@ function Sales() {
                     });
             })
             .catch(() => {
-                toast.error("Sale can not be deleted");
+                toast.error("Sale cannot be deleted");
             })
             .finally(() => setIsEditing(false));
-    };
-
-    const handleComplete = id => {
-        axios
-            .patch(API_URL + "/deals/" + id + "/complete")
-            .then(() => {
-                toast.success("Sale was completed successfully");
-                axios
-                    .get(API_URL + "/deals")
-                    .then(response => {
-                        setSales(response.data);
-                    })
-                    .catch(() => {
-                        setSales([]);
-                    });
-            })
-            .catch(() => {
-                toast.error("Sale can not be completed");
-            });
-    };
-
-    const handleCancel = id => {
-        axios
-            .patch(API_URL + "/deals/" + id + "/cancel")
-            .then(() => {
-                toast.success("Sale was cancelled successfully");
-                axios
-                    .get(API_URL + "/deals")
-                    .then(response => {
-                        setSales(response.data);
-                    })
-                    .catch(() => {
-                        setSales([]);
-                    });
-            })
-            .catch(() => {
-                toast.error("Sale can not be cancelled");
-            });
-    };
-
-    const handleEditClick = (id, client) => {
-        setId(id);
-        setIsEditing(true);
-        setNewSale(client);
     };
 
     return (
@@ -243,32 +197,12 @@ function Sales() {
                 </select>
                 {errors.client && <p style={styles.error}>{errors.client}</p>}
 
-                {isEditing ? (
-                    <div style={{ display: "flex", gap: "2rem" }}>
-                        <button
-                            type="button"
-                            onClick={handleEditDeal}
-                            style={styles.saveBtn}>
-                            Save
-                        </button>
-                        <button
-                            type="button"
-                            onClick={() => {
-                                clearInputs();
-                                setIsEditing(false);
-                            }}
-                            style={styles.cancelBtn}>
-                            Cancel
-                        </button>
-                    </div>
-                ) : (
-                    <button
-                        type="button"
-                        onClick={handleAddDeal}
-                        style={styles.button}>
-                        Add Sale
-                    </button>
-                )}
+                <button
+                    type="button"
+                    onClick={handleAddDeal}
+                    style={styles.button}>
+                    Add Sale
+                </button>
             </div>
 
             <table style={styles.table}>
@@ -278,9 +212,6 @@ function Sales() {
                         <th>Title</th>
                         <th>Description</th>
                         <th>Price</th>
-                        <th>Start Date</th>
-                        <th>Cancel Date</th>
-                        <th>Completion Date</th>
                         <th>Status</th>
                         <th>Actions</th>
                     </tr>
@@ -297,31 +228,12 @@ function Sales() {
                             <td>{sale.title}</td>
                             <td>{sale.description}</td>
                             <td>{sale.price}</td>
-                            <td>{sale.startDate?.slice(0, 10)}</td>
-                            <td>{sale.cancelDate?.slice(0, 10)}</td>
-                            <td>{sale.completionDate?.slice(0, 10)}</td>
                             <td>{sale.status}</td>
-                            <td style={styles.actions}>
-                                <button
-                                    style={styles.editButton}
-                                    onClick={() => handleComplete(sale.id)}>
-                                    Complete
-                                </button>
-                                <button
-                                    style={styles.deleteButton}
-                                    onClick={() => handleCancel(sale.id)}>
-                                    Cancel
-                                </button>
-                                <button
-                                    style={styles.editButton}
-                                    onClick={() =>
-                                        handleEditClick(sale.id, sale)
-                                    }>
+                            <td>
+                                <button style={styles.editButton}>
                                     Edit
                                 </button>
-                                <button
-                                    style={styles.deleteButton}
-                                    onClick={() => handleDeleteDeal(sale.id)}>
+                                <button style={styles.deleteButton}>
                                     Delete
                                 </button>
                             </td>
@@ -335,8 +247,8 @@ function Sales() {
 
 const styles = {
     container: {
-        maxWidth: "1200px",
-        margin: "auto",
+        width: "70%",
+        marginLeft: "20%",
         padding: "20px",
         backgroundColor: "#79c7b1",
         borderRadius: "10px",
@@ -352,37 +264,24 @@ const styles = {
         gap: "10px",
         marginBottom: "20px"
     },
-    label: {
-        marginTop: "10px",
-        textAlign: "start"
-    },
     input: {
         padding: "10px",
         fontSize: "16px",
         borderRadius: "5px",
         border: "1px solid #ddd"
     },
-    error: {
-        color: "red",
-        fontSize: "12px",
-        margin: "0"
-    },
     button: {
         padding: "10px",
         fontSize: "16px",
-        backgroundColor: "#a3a362",
+        backgroundColor: "#4caf50",
         color: "#fff",
         border: "none",
         borderRadius: "5px",
-        cursor: "pointer",
-        width: "fit-content"
+        cursor: "pointer"
     },
     table: {
         width: "100%",
-        borderCollapse: "separate",
-        textAlign: "left",
-        rowGap: "10px",
-        borderSpacing: "0 10px"
+        borderCollapse: "collapse"
     },
     deleteButton: {
         backgroundColor: "red",
@@ -394,33 +293,13 @@ const styles = {
         marginRight: "5px"
     },
     editButton: {
-        backgroundColor: "green",
+        backgroundColor: "blue",
         color: "#fff",
         border: "none",
         padding: "5px",
         borderRadius: "5px",
         cursor: "pointer",
         marginRight: "5px"
-    },
-    saveBtn: {
-        padding: "10px 20px",
-        borderRadius: "5px",
-        fontSize: "16px",
-        border: "none",
-        backgroundColor: "green",
-        color: "#fff",
-        cursor: "pointer",
-        width: "fit-content"
-    },
-    cancelBtn: {
-        padding: "10px 20px",
-        borderRadius: "5px",
-        fontSize: "16px",
-        border: "none",
-        backgroundColor: "red",
-        color: "#fff",
-        cursor: "pointer",
-        width: "fit-content"
     }
 };
 

@@ -277,42 +277,48 @@ function Buyers() {
 
 const styles = {
     container: {
+        width: "70%",
+        marginLeft: "20%",
         padding: "20px",
-        backgroundColor: "#79c7b1",
+        backgroundColor: "#79c7b1", 
         borderRadius: "10px",
-        maxWidth: "1200px",
-        margin: "0 auto"
+        boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)",
+        textAlign: "center",
     },
     title: {
         textAlign: "center",
-        marginBottom: "20px"
+        marginBottom: "20px",
+        fontSize: "28px",
+        fontWeight: "bold",
+        color: "#333",
     },
     form: {
         display: "flex",
         flexDirection: "column",
         gap: "10px",
-        marginBottom: "20px"
+        marginBottom: "20px",
     },
     input: {
         padding: "10px",
         fontSize: "16px",
         borderRadius: "5px",
-        border: "1px solid #ccc"
+        border: "1px solid #ccc",
+        width: "100%",
     },
     error: {
         color: "red",
         fontSize: "12px",
-        margin: "0"
+        margin: "0",
     },
     button: {
         padding: "10px 20px",
         borderRadius: "5px",
         fontSize: "16px",
         border: "none",
-        backgroundColor: "#a3a362",
+        backgroundColor: "#4caf50", 
         color: "#fff",
         cursor: "pointer",
-        width: "fit-content"
+        alignSelf: "center",
     },
     saveBtn: {
         padding: "10px 20px",
@@ -322,7 +328,7 @@ const styles = {
         backgroundColor: "green",
         color: "#fff",
         cursor: "pointer",
-        width: "fit-content"
+        width: "fit-content",
     },
     cancelBtn: {
         padding: "10px 20px",
@@ -332,14 +338,25 @@ const styles = {
         backgroundColor: "red",
         color: "#fff",
         cursor: "pointer",
-        width: "fit-content"
+        width: "fit-content",
     },
     table: {
         width: "100%",
-        borderCollapse: "separate",
+        borderCollapse: "collapse",
         textAlign: "left",
-        rowGap: "10px",
-        borderSpacing: "0 10px"
+        marginTop: "20px",
+        borderSpacing: "0 10px",
+    },
+    tableHeader: {
+        backgroundColor: "#4caf50",
+        color: "#fff",
+        fontSize: "16px",
+        textAlign: "left",
+        padding: "10px",
+    },
+    tableRow: {
+        backgroundColor: "#fff",
+        padding: "10px",
     },
     deleteButton: {
         backgroundColor: "red",
@@ -347,7 +364,8 @@ const styles = {
         border: "none",
         padding: "5px",
         borderRadius: "5px",
-        cursor: "pointer"
+        cursor: "pointer",
+        marginRight: "10px",
     },
     editButton: {
         backgroundColor: "green",
@@ -356,8 +374,9 @@ const styles = {
         padding: "5px",
         borderRadius: "5px",
         cursor: "pointer",
-        marginRight: "10px"
-    }
+        marginRight: "10px",
+    },
 };
 
 export default Buyers;
+

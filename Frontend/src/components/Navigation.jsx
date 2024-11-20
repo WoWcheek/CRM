@@ -6,7 +6,6 @@ import {
     HiTrendingUp,
     HiCurrencyDollar
 } from "react-icons/hi";
-import { MdMargin } from "react-icons/md";
 
 function Navigation() {
     return (
@@ -37,20 +36,31 @@ function Navigation() {
 
 const styles = {
     nav: {
-        display: "flex",
-        justifyContent: "space-around",
+        width: "250px",
         backgroundColor: "#49665d",
-        padding: "10px",
-        borderRadius: "8px",
-        margin: "10px"
+        height: "100vh", // Повна висота сторінки
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        padding: "20px",
+        position: "fixed", // Фіксоване положення зліва
+        top: 0,
+        left: 0,
     },
     link: {
         color: "#fff",
         textDecoration: "none",
         fontSize: "1.2rem",
         display: "flex",
-        gap: "8px"
-    }
+        alignItems: "center",
+        gap: "8px",
+        padding: "10px 15px",
+        borderRadius: "5px",
+        marginBottom: "15px",
+        backgroundColor: "#3d554d",
+        width: "100%",
+        textAlign: "center",
+    },
 };
 
 export default Navigation;

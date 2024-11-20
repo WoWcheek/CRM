@@ -51,7 +51,7 @@ function Analyses() {
 
 const styles = {
     container: {
-        width: "80%",
+        width: "60%",
         margin: "auto",
         padding: "20px",
         backgroundColor: "#79c7b1",

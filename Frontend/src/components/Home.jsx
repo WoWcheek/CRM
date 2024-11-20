@@ -16,7 +16,7 @@ function Home() {
             <div style={styles.textContainer}>
                 <h1 style={styles.heading}>Welcome to the CRM System</h1>
                 <p style={styles.paragraph}>
-                    Effectively manage your contacts, sales, and support!
+                This CRM System was created for ATB Market!
                 </p>
             </div>
             <div style={styles.cardContainer}>
